@@ -124,4 +124,4 @@ async def unmute(ctx, member: discord.Member):
      
 
 
-client.run('ODQ4NjM3MzE1MDcyOTE3NTM1.YLPhFg.rP7TOc7wODWBaEewM4N2TaLcRUc')
+client.run('MY_Token')
