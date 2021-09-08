@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import discord.member
 import datetime
 import os
 import urllib
@@ -94,33 +95,33 @@ async def ban(ctx, member : discord.Member, *, reason="none"):
     embed.set_thumbnail(url="https://c.tenor.com/d0VNnBZkSUkAAAAM/bongocat-banhammer.gif")
     await ctx.send(embed=embed)
 
-
-
 @client.command(description="Mutes the specified user.")
 @commands.has_permissions(manage_messages=True)
-async def mute(ctx, member: discord.member, *, reason=None):
-	guild = ctx.guild
-	mutedRole = discord.utils.get(guild.roles, name="Muted")
+async def mute(ctx, member: discord.Member, *, reason=None):
+    guild = ctx.guild
+    mutedRole = discord.utils.get(guild.roles, name="Muted")
 
-	if not mutedRole:
-		mutedRole = await guild.create_role(name="Muted")
+    if not mutedRole:
+        mutedRole = await guild.create_role(name="Muted")
 
-		for channel in guild.channels:
-			await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=False)
-
-	await member.add_roles(mutedRole, reason=reason)
-	await ctx.send(f"Muted {member.mention} for reason {reason}")
-	await member.send(f"You were muted in the server {guild.name} for {reason}")
-
+        for channel in guild.channels:
+            await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+    embed = discord.Embed(title="muted", description=f"{member.mention} was muted ", colour=discord.Colour.light_gray())
+    embed.add_field(name="reason:", value=reason, inline=False)
+    await ctx.send(embed=embed)
+    await member.add_roles(mutedRole, reason=reason)
+    
 
 @client.command(description="Unmutes a specified user.")
 @commands.has_permissions(manage_messages=True)
-async def unmute(ctx, member: discord.member):
-	mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
+async def unmute(ctx, member: discord.Member):
+   mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
 
-	await member.remove_roles(mutedRole)
-	await ctx.send(f"Unmuted {member.mention}")
-	await member.send(f"You were unmuted in the server {ctx.guild.name}")
+   await member.remove_roles(mutedRole)
+   await member.send(f" you have unmutedd from: - {ctx.guild.name}")
+   embed = discord.Embed(title="unmute", description=f" unmuted-{member.mention}",colour=discord.Colour.light_gray())
+   await ctx.send(embed=embed)
+     
 
 
-client.run('MY_Token')
+client.run('ODQ4NjM3MzE1MDcyOTE3NTM1.YLPhFg.rP7TOc7wODWBaEewM4N2TaLcRUc')
